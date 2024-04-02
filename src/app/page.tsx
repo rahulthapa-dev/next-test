@@ -5,6 +5,7 @@ import { ChevronDownIcon, ChevronUpIcon, GlobeAmericasIcon, EyeIcon, EyeSlashIco
 import { Fragment, useRef } from 'react'
 import { ExclamationCircleIcon } from '@heroicons/react/24/solid'
 import React, { useState } from 'react'
+import localFont from 'next/font/local'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -13,6 +14,12 @@ function validateEmail(email: string) {
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   return emailRegex.test(email)
 }
+const apercu = localFont({
+  src: [
+    { path: 'fonts/ApercuPro-Light-english.woff2', weight: '200' },
+    { path: 'fonts/ApercuPro-Regular-english.woff2', weight: '400' },
+  ],
+})
 
 function validatePassord(password: string) {
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/
@@ -105,8 +112,8 @@ const SignUp: NextPage = () => {
 
   return (
     <>
-      <div className=" flex min-h-full flex-1 bg-[#191919] items-center lg:justify-end">
-        <div className="relative hidden flex-1 lg:block justify-center w-full max-w-[600px]">
+      <div className={`${apercu.className} flex min-h-screen flex-1 bg-[#191919] items-start lg:justify-end`}>
+        <div className="relative hidden flex-1 lg:block justify-center w-full max-w-[600px] mt-24">
           <h1 className="text-white justify-center flex text-4xl text-center mb-8">Sign up <br/>and come on in</h1>
           <div className="max-w-[366px] mx-auto mb-16">
             <img
@@ -117,9 +124,9 @@ const SignUp: NextPage = () => {
           </div>
           <p className="text-white justify-center flex">© Typeform</p>
         </div>
-        <div className="min-h-screen flex flex-1 flex-col justify-center bg-white lg:rounded-l-[16px]  lg:max-w-[742px]">
-          <div className="mx-auto w-full">
-            <div className="flex justify-between mb-5 px-4 xl:px-4 pt-2">
+        <div className="min-h-screen h-ull flex flex-1 items-start flex-col justify-center bg-white lg:rounded-l-[16px]  lg:max-w-[742px]">
+          <div className="mx-auto w-full min-h-screen ">
+            <div className="flex justify-between mb-5 px-4 xl:px-4 pt-3">
               <Menu as="div" className="relative inline-block text-left text-sm">
                 <div>
                   <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-normal text-gray-900 ring-inset ring-0 ">
@@ -173,7 +180,7 @@ const SignUp: NextPage = () => {
               </Menu>
               <div className="flex items-center text-sm">
                 <p className="text-[#3d3d3c]">Already have an account?</p>
-                <button className="rounded-md bg-white px-4 pt-1 pb-2 text-xs font-normal text-[#3d3d3c] shadow-sm ring-1 ring-inset ring-gray-900 hover:bg-gray-50 ms-2">Login</button>
+                <button className="rounded-md bg-white px-5 py-1.5 text-xs font-normal text-[#3d3d3c] shadow-sm ring-1 ring-inset ring-gray-900 hover:bg-gray-50 ms-2">Login</button>
               </div>
             </div>
             <div className="px-4 pt-0 pb-12 sm:px-6 lg:flex-none lg:px-12 xl:px-24">
@@ -190,13 +197,13 @@ const SignUp: NextPage = () => {
                     </span>
                   </div>
                 </a>
-                <h2 className="mt-3 text-2xl tracking-tight text-[#5e5e5e] text-center mxa-w-[420px] mx-auto">
+                <h2 className={`${apercu.className} mt-3 text-2xl tracking-tight text-[#5e5e5e] text-center max-w-[420px] mx-auto font-light leading-9`}>
                   Get better data with conversational forms, surveys, quizzes & more.
                 </h2>
               </div>
-              <div className="mt-10 max-w-[256px] mx-auto">
+              <div className="mt-5 max-w-[256px] mx-auto">
                 <div>
-                  <form method="POST" className="space-y-6" onSubmit={onSubmit} autoComplete={"off"}>
+                  <form method="POST" className="space-y-5" onSubmit={onSubmit} autoComplete={"off"}>
                     <div>
                       <label htmlFor="email-address" className="sr-only">
                       Email
@@ -209,14 +216,16 @@ const SignUp: NextPage = () => {
                           autoComplete="email"
                           onChange={(event) => setEmail(event.target.value)}
                         disabled={elementsDisabled}
-                        className={`block w-full rounded-[3px] border-0 py-1.5 shadow-sm ring-1 ring-inset ring-[#7f7f7f] hover:ring-[#c2c2c1] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#000] sm:text-md ${
+                        className={`block w-full rounded-[3px] border-0 py-2 px-2 shadow-sm ring-1 ring-inset ring-[#7f7f7f] hover:ring-[#c2c2c1] placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-[#000] text-sm ${
                         elementsDisabled ? 'disabled:opacity-75' : null
                         }`}
                         placeholder="Email"
                         />
                         { isFormSubmit && emailError && (
                         <div className="flex text-red-600 items-center gap-2 mt-1">
-                          <ExclamationCircleIcon width="24px"/>
+                          <div className='w-[20px] min-w-[20px]'>
+                          <ExclamationCircleIcon width="20px"/>
+                          </div>
                           <p className="error text-red-600 text-sm ">{emailError}</p>
                         </div>
                         ) }
@@ -235,45 +244,55 @@ const SignUp: NextPage = () => {
                           autoComplete="current-password"
                           disabled={elementsDisabled}
                           onChange={(event) => setPassword(event.target.value.trim())}
-                          className={`block w-full rounded-[3px] border-0 py-1.5 shadow-sm ring-1 ring-inset ring-[#7f7f7f] hover:ring-[#c2c2c1] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#000] sm:text-md pe-6 ${
+                          className={`block w-full rounded-[3px] border-0 px-2 py-2 shadow-sm ring-1 ring-inset ring-[#7f7f7f] hover:ring-[#c2c2c1] placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-[#000] text-sm pe-6 ${
                           elementsDisabled ? 'disabled:opacity-75' : null
                           }`}
                           placeholder="Password"
                           />
-                          <div className="absolute w-4 h-5 right-1 top-3">
+                          <div className="absolute w-4 h-5 right-2 top-[9px]">
                             {
                             showingPassword ? 
-                            <EyeSlashIcon className='text-gray-500' onClick={() =>
+                            <EyeSlashIcon className='text-gray-400' onClick={() =>
                             setShowingPassword(false)} /> : 
-                            <EyeIcon className='text-gray-500' onClick={() =>
+                            <EyeIcon className='text-gray-400' onClick={() =>
                             setShowingPassword(true)}/>
                             }
                           </div>
                         </div>
                         { isFormSubmit && passwordError && (
                         <div className="flex text-red-600 items-center gap-2 mt-1">
-                          <ExclamationCircleIcon width="24px"/>
-                          <p className="error text-red-600 text-sm ">{passwordError}</p>
+                          <div className='w-[20px] min-w-[20px]'>
+                          <ExclamationCircleIcon/>
+                          </div>
+                          
+                          <p className="error text-red-600 text-sm">{passwordError}</p>
                         </div>
                         ) }
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
-                      <div className="flex items-start">
-                        <input
-                          id="tac"
-                          name="tac"
-                          type='checkbox'
-                          checked={termsAndCondition}
-                          onChange={() => setTermsAndCondition((state) => !state)}
-                        className="mt-1 h-5 w-5 rounded border-gray-300 text-[#191919] focus:ring-[#191919]"
-                        />
-                        <label htmlFor="tac" className="ml-3 block text-sm leading-6 text-gray-700">
+                      <div >
+                        <div className="flex items-start gap-2">
+                        <div className='h-[20px] w-[20px]'>
+                          <input
+                          className="mt-1 h-[20px] w-[20px] rounded border-gray-300 border-gray-300 text-[#191919] focus:ring-[#191919]"
+                            id="tac"
+                            name="tac"
+                            type='checkbox'
+                            checked={termsAndCondition}
+                            onChange={() => setTermsAndCondition((state) => !state)}
+                          
+                          />
+                        </div>
+                        <label htmlFor="tac" className="block text-sm leading-6 text-gray-700">
                         I agree to Typeform’s <a href="#" className="text-[#191919] underline">Terms of Service</a>, <a href="#">Privacy Policy</a> and <a href="#">Data Processing Agreement</a>.
                         </label>
+                        </div>
                         { isFormSubmit && tacError && (
                         <div className="flex text-red-600 items-center gap-2 mt-1">
-                          <ExclamationCircleIcon width="24px"/>
+                          <div className='w-[20px] min-w-[20px]'>
+                          <ExclamationCircleIcon/>
+                          </div>
                           <p className="error text-red-600 text-sm ">{tacError}</p>
                         </div>
                         ) }
